@@ -113,6 +113,16 @@ public class StudentController {
         return service.GetLastFiveStudents();
     }
 
+    @GetMapping("/namesStartsA")
+    public Collection<String> getStudentsNameStartsA(){
+return studentService.getStudentsNameStartsA();
+    }
+    @GetMapping("/streamAverageAge")
+    public streamAverageAge(){
+
+        return studentService.streamAverageAge();
+    }
+
 
 }
 

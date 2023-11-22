@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.stream.Collector;
 
 @Service
 public class StudentService {
@@ -135,6 +136,25 @@ public class StudentService {
         logger.info("add method was invoked ");
 
         return studentRepository.getLastFiveStudents();
+    }
+
+    public Collection<String> getStudentsNameStartsA(){
+        return studentRepository.findAll().stream()
+                .nap(Student::getName)
+                .filter(name -> name.toUpperCase().startsWith("A"))
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
+
+    }
+
+    public double streamAverageAge(){
+        return studentRepository.findAll()
+                .stream()
+                .map(Student::getAge)
+                .mapToInt(o -> 0)
+                .average()
+                .orElse(0d);
     }
 }
 

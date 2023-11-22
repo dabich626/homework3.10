@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 @Service
 public class FacultyService {
@@ -81,6 +82,14 @@ public Collection<Faculty> filterByNameOrColor(String name, String color){
 
         return studentTemporary.getFaculty();
 
+    }
+
+    public String getTheLongestFacultyName(){
+        return repository.findAll()
+                .stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
     }
 
 }
