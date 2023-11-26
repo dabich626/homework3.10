@@ -140,7 +140,7 @@ public class StudentService {
 
     StudentsQueue<String> studentsQueue = new StudentsQueue<>(Comparator.comparingInt(String::length));
     studentsQueue.findAll();
-    studentsQueue.add(Student.findAll());
+    studentsQueue.add(Student.findAll() );
 
 while (!studentsQueue.isEmpty()) {
         System.out.println(studentsQueue.remove());
