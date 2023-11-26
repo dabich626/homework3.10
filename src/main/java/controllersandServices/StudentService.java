@@ -17,6 +17,7 @@ public class StudentService {
 
 
     private final AvatarRepository aRepository;
+    private static final Object monitor = new Object();
 
     public StudentService(StudentRepository repository, AvatarRepository aRepository) {
         this.studentRepository = repository;
@@ -137,6 +138,14 @@ public class StudentService {
         return studentRepository.getLastFiveStudents();
     }
 
+    StudentsQueue<String> studentsQueue = new StudentsQueue<>(Comparator.comparingInt(String::length));
+    studentsQueue.findAll();
+    studentsQueue.add(Student.findAll());
+
+while (!studentsQueue.isEmpty()) {
+        System.out.println(studentsQueue.remove());
+    }
+
     public void printNonSync(){
         var students = student.Repository.findAll();
         System.out.println(students.get(0));
@@ -167,19 +176,24 @@ public class StudentService {
             printSynchronized(students.get(3));
         });
 
-        t1.start();
 
         Thread t2 = new Thread(() ->{
             printSynchronized(students.get(4));
             printSynchronized(students.get(5));
         });
 
-        t2.start();
+        t1.start(); t2.start();
 
     }
 
-    private synchronized void printSynchronized(Object o){
-        System.out.println(o.toString());
+    private  void printSynchronized(Object o){
+        synchronized(studentsQueue){
+
+
+        }
+
+        System.out.println(studentsQueue.pollFirst(o));
+        System.out.println(studentsQueue.pollLast(o));
     }
 
 }
